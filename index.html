@@ -588,70 +588,108 @@ document.querySelectorAll('.filter').forEach(button => {
 
 			
 
-			<section class="colorlib-contact" data-section="contact">
-				<div class="colorlib-narrow-content">
-					<div class="row">
-						<div class="col-md-6 col-md-offset-3 col-md-pull-3 animate-box" data-animate-effect="fadeInLeft">
-							<span class="heading-meta">Get in Touch</span>
-							<h2 class="colorlib-heading">Contact</h2>
-						</div>
-					</div>
-					<div class="row">
-						<div class="col-md-5">
-							<div class="colorlib-feature colorlib-feature-sm animate-box" data-animate-effect="fadeInLeft">
-								<div class="colorlib-icon">
-									<i class="">@</i>
-								</div>
-								<div class="colorlib-text">
-									<p><a href="#">gautamtaneja888@gmail.com</a></p>
-								</div>
-							</div>
+		<section class="colorlib-contact" data-section="contact">
+    <div class="colorlib-narrow-content">
+        <div class="row">
+            <div class="col-md-6 col-md-offset-3 col-md-pull-3 animate-box" data-animate-effect="fadeInLeft">
+                <span class="heading-meta">Get in Touch</span>
+                <h2 class="colorlib-heading">Contact</h2>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-5">
+                <div class="colorlib-feature colorlib-feature-sm animate-box" data-animate-effect="fadeInLeft">
+                    <div class="colorlib-icon"><i class="">@</i></div>
+                    <div class="colorlib-text"><p><a href="#">gautamtaneja888@gmail.com</a></p></div>
+                </div>
+                <div class="colorlib-feature colorlib-feature-sm animate-box" data-animate-effect="fadeInLeft">
+                    <div class="colorlib-icon"><i class="">📍</i></div>
+                    <div class="colorlib-text"><p>Delhi, India</p></div>
+                </div>
+                <div class="colorlib-feature colorlib-feature-sm animate-box" data-animate-effect="fadeInLeft">
+                    <div class="colorlib-icon"><i class="">📞</i></div>
+                    <div class="colorlib-text"><p><a href="https://wa.me/919548019917" target="_blank">+91 9548019917</a></p></div>
+                </div>
+            </div>
 
-							<div class="colorlib-feature colorlib-feature-sm animate-box" data-animate-effect="fadeInLeft">
-								<div class="colorlib-icon">
-									<i class="">📍</i>
-								</div>
-								<div class="colorlib-text">
-									<p>Delhi, India</p>
-								</div>
-							</div>
+            <div class="col-md-7 col-md-push-1">
+                <div class="row">
+                    <div class="col-md-10 col-md-offset-1 col-md-pull-1 animate-box" data-animate-effect="fadeInRight">
+                        
+                        <form id="contact-form" action="https://formspree.io/f/meelraqj" method="POST">
+                            <div class="form-group">
+                                <input type="text" class="form-control" placeholder="Name" name="name" required>
+                            </div>
+                            <div class="form-group">
+                                <input type="email" class="form-control" placeholder="Email" name="email" required>
+                            </div>
+                            <div class="form-group">
+                                <input type="text" class="form-control" placeholder="Subject" name="subject" required>
+                            </div>
+                            <div class="form-group">
+                                <textarea id="message" cols="30" rows="7" class="form-control" placeholder="Message" name="message" required></textarea>
+                            </div>
+                            <div class="form-group">
+                                <input type="submit" id="submit-btn" class="btn btn-primary btn-send-message" value="Send Message">
+                            </div>
+                            
+                            <div id="status-msg" style="display:none; margin-top: 15px; font-weight: bold; padding: 10px; border-radius: 5px;"></div>
+                        </form>
+                        </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 
-							<div class="colorlib-feature colorlib-feature-sm animate-box" data-animate-effect="fadeInLeft">
-								<div class="colorlib-icon">
-									<i class="">📞</i>
-								</div>
-								<div class="colorlib-text">
-									<p><a href="https://wa.me/919548019917" target="_blank">+91 9548019917</a></p>
-								</div>
-							</div>
-						</div>
-						<div class="col-md-7 col-md-push-1">
-							<div class="row">
-								<div class="col-md-10 col-md-offset-1 col-md-pull-1 animate-box" data-animate-effect="fadeInRight">
-									<form action="https://formspree.io/f/meelraqj" method="post">
-										<div class="form-group">
-											<input type="text" class="form-control" placeholder="Name" name="name">
-										</div>
-										<div class="form-group">
-											<input type="text" class="form-control" placeholder="Email" name="email">
-										</div>
-										<div class="form-group">
-											<input type="text" class="form-control" placeholder="Subject" name="subject">
-										</div>
-										<div class="form-group">
-											<textarea name="" id="message" cols="30" rows="7" class="form-control" placeholder="Message" name="message"></textarea>
-										</div>
-										<div class="form-group">
-											<input type="submit" class="btn btn-primary btn-send-message" value="Send Message">
-										</div>
-									</form>
-								</div>
-								
-							</div>
-						</div>
-					</div>
-				</div>
-			</section>
+<script>
+    const form = document.getElementById("contact-form");
+    const statusMsg = document.getElementById("status-msg");
+    const submitBtn = document.getElementById("submit-btn");
+
+    form.addEventListener("submit", async function(event) {
+        event.preventDefault(); // Default Formspree redirect ko rokne ke liye
+        
+        const data = new FormData(event.target);
+        
+        // Button state change
+        submitBtn.disabled = true;
+        submitBtn.value = "Sending...";
+
+        fetch(event.target.action, {
+            method: 'POST',
+            body: data,
+            headers: { 'Accept': 'application/json' }
+        }).then(response => {
+            if (response.ok) {
+                // Success Scenario
+                statusMsg.innerText = "Submitted successfully!";
+                statusMsg.style.color = "green";
+                statusMsg.style.display = "block";
+                
+                form.reset(); // Saare fields khali ho jayenge
+                submitBtn.value = "Send Message";
+                submitBtn.disabled = false;
+
+                // Message ko 5 second baad hide karne ke liye
+                setTimeout(() => { statusMsg.style.display = "none"; }, 5000);
+            } else {
+                // Error Scenario
+                statusMsg.innerText = "Oops! Something went wrong.";
+                statusMsg.style.color = "red";
+                statusMsg.style.display = "block";
+                submitBtn.disabled = false;
+                submitBtn.value = "Send Message";
+            }
+        }).catch(error => {
+            statusMsg.innerText = "Connection Error. Please try again.";
+            statusMsg.style.color = "red";
+            statusMsg.style.display = "block";
+            submitBtn.disabled = false;
+            submitBtn.value = "Send Message";
+        });
+    });
+</script>
 
 		</div><!-- end:colorlib-main -->
 	</div><!-- end:container-wrap -->
